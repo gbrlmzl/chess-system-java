@@ -5,12 +5,8 @@ import boardgame.Piece;
 import boardgame.Position;
 import chess.pieces.*;
 
-import java.security.InvalidParameterException;
 import java.util.List;
-
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ChessMatch {
@@ -115,7 +111,7 @@ public class ChessMatch {
             throw new IllegalStateException("THERE IS NO PIECE TO BE PROMOTED!");
         }
         if(!type.equals("B") && !type.equals("N") && !type.equals("R") & !type.equals("Q")){
-            throw new InvalidParameterException("INVALID TYPE FOR PROMOTION!");
+            return promoted;
         }
         Position pos = promoted.getChessPosition().toPosition();
         Piece p = board.removePiece(pos);
