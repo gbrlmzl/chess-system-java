@@ -18,6 +18,8 @@ public class ChessMatch {
     private ChessPiece enPassantVulnerable;
     private ChessPiece promoted;
 
+    private Color winner;
+
 
     private List<Piece> piecesOnTheBoard = new ArrayList<>();
     private List<Piece> capturedPieces = new ArrayList<>();
@@ -44,6 +46,9 @@ public class ChessMatch {
     }
     public boolean getCheckMate(){
         return checkMate;
+    }
+    public Color getWinner(){
+        return winner;
     }
     public ChessPiece getEnPassantVulnerable(){
         return enPassantVulnerable;
@@ -92,6 +97,7 @@ public class ChessMatch {
 
         if(testCheckMate(oponnent(currentPlayer))){
             checkMate = true;
+            winner = currentPlayer;
         }
         else{
             nextTurn();
@@ -278,10 +284,10 @@ public class ChessMatch {
     }
     private boolean testCheck(Color color){
         Position kingPosition = king(color).getChessPosition().toPosition();
-        List<Piece> oponnentPieces = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == oponnent(color)).collect(Collectors.toList());
-        List<Position> possibleOpponentPositions;
+        List<Piece> opponentPieces = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == oponnent(color)).collect(Collectors.toList());
 
-        for( Piece p : oponnentPieces){
+
+        for( Piece p : opponentPieces){
             boolean[][] mat = p.possibleMoves();
             if(mat[kingPosition.getRow()][kingPosition.getColumn()]){
                 return true;
@@ -304,22 +310,22 @@ public class ChessMatch {
         return false;
         }
 
-    private boolean testCheckMate(Color color){
-        if(!testCheck(color)){
+    private boolean testCheckMate(Color color) {
+        if (!testCheck(color)) {
             return false;
         }
         List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == color).collect(Collectors.toList());
-        for(Piece p : list){
+        for (Piece p : list) {
             boolean[][] mat = p.possibleMoves();
-            for(int i = 0; i < mat.length; i++){
-                for(int j = 0; j < mat.length; j++){
-                    if(mat[i][j]){
+            for (int i=0; i<board.getRows(); i++) {
+                for (int j=0; j<board.getColumns(); j++) {
+                    if (mat[i][j]) {
                         Position source = ((ChessPiece)p).getChessPosition().toPosition();
                         Position target = new Position(i, j);
                         Piece capturedPiece = makeMove(source, target);
                         boolean testCheck = testCheck(color);
                         undoMove(source, target, capturedPiece);
-                        if(!testCheck){
+                        if (!testCheck) {
                             return false;
                         }
                     }
@@ -346,7 +352,7 @@ public class ChessMatch {
         placeNewPiece('g', 1, new Knight(board, Color.WHITE));
         placeNewPiece('c', 1, new Bishop(board, Color.WHITE));
         placeNewPiece('f', 1, new Bishop(board, Color.WHITE));
-        placeNewPiece('e', 1, new King(board, Color.WHITE, this));
+        placeNewPiece('e', 1, new King(board, Color.WHITE, this)); // original: e 1
         placeNewPiece('d', 1, new Queen(board, Color.WHITE));
         placeNewPiece('h', 1, new Rook(board, Color.WHITE));
         placeNewPiece('a', 2, new Pawn(board, Color.WHITE, this));
@@ -357,6 +363,8 @@ public class ChessMatch {
         placeNewPiece('f', 2, new Pawn(board, Color.WHITE, this));
         placeNewPiece('g', 2, new Pawn(board, Color.WHITE, this));
         placeNewPiece('h', 2, new Pawn(board, Color.WHITE, this));
+
+
 
         placeNewPiece('a', 8, new Rook(board, Color.BLACK));
         placeNewPiece('b', 8, new Knight(board, Color.BLACK));
@@ -374,6 +382,9 @@ public class ChessMatch {
         placeNewPiece('f', 7, new Pawn(board, Color.BLACK, this));
         placeNewPiece('g', 7, new Pawn(board, Color.BLACK, this));
         placeNewPiece('h', 7, new Pawn(board, Color.BLACK, this));
+
+
+
 
 
     }

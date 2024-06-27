@@ -41,6 +41,18 @@ public class UI {
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+
+    public static final String menu = "=================================" + "\n" +
+                                      "     Welcome to Chess Mania!" + "\n" +
+                                      "=================================" + "\n" +
+                                      "1 --> Casual match " + "\n" +
+                                      "2 --> Ranked match " + "\n" +
+                                      "3 --> Register " + "\n" +
+                                      "4 --> Ranking" + "\n" +
+                                      "5 --> Match history" + "\n" +
+                                      "6 --> Exit" + "\n" +
+                                      "=================================";
+
     public static ChessPosition readChessPosition(Scanner sc){
         try{
         String s = sc.nextLine();
@@ -57,7 +69,8 @@ public class UI {
         printCapturedPieces(captured);
         System.out.println();
         System.out.println("Turn : " + chessMatch.getTurn());
-        if(!chessMatch.getCheck()){
+
+        if(!chessMatch.getCheckMate()){
             System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
             if(chessMatch.getCheck()){
                 System.out.println("CHECK!");
@@ -65,7 +78,8 @@ public class UI {
 
         }else{
             System.out.println("CHECKMATE!");
-            System.out.println("Winner: " + chessMatch.getCurrentPlayer());
+            System.out.println("Winner: " + chessMatch.getWinner());
+
         }
 
     }
