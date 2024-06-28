@@ -56,5 +56,16 @@ public class Player {
         return matchHistory;
     }
 
+    public void increaseMmr(){
+        this.mmr += 20;
+    }
+    public void decreaseMmr(){
+        if(this.mmr <= 20){
+            this.mmr = 0;
+        }else{
+            this.mmr -= 20;
+        }
+    }
+
 
 }

@@ -1,5 +1,8 @@
 package ranksystem;
 
+import chess.Color;
+
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -14,38 +17,53 @@ public class RankedDataSystem {
     }
 
     public boolean registerPlayer(Player player){
-        if(playerIdAlreadyExists(player)){
+        if(playerIdExists(player)){
             throw new DataException("THIS PLAYER ID ALREADY EXISTS!");
         }
         playersList.add(player);
         return true;
     }
 
+    public void registerMatch(MatchData match){
+        matchHistory.add(match);
+    }
+
     private Player[] makeRanking (){
-        ArrayList<Player> clonePlayerList = playersList;
+        ArrayList<Player> clonePlayerList = new ArrayList<>(playersList) ;
         clonePlayerList.sort(Comparator.comparingInt(Player::getMmr).reversed());
-        Player[] top10 = new Player[10];
-        for(int i = 0; i < 10; i++){
-            top10[i] = clonePlayerList.get(i);
+        if(clonePlayerList.isEmpty()){
+            return null;
         }
-        return top10;
+        int size = Math.min(clonePlayerList.size(), 10);
+        Player[] topPlayers = new Player[size];
+
+        for(int i = 0; i < size; i++){
+            topPlayers[i] = clonePlayerList.get(i);
+        }
+        return topPlayers;
+
+
+
 
     }
     public void showRanking(){
-        for(int i = 0; i < makeRanking().length; i++){
-            if(makeRanking()[i] == null){
+        Player[] playersRank = makeRanking();
+
+        if(makeRanking() == null){
                 System.out.println();
-                System.out.println("There are no more players.");
-                break;
+                System.out.println("There are no players registered.");
+
             }else{
-                System.out.println((i+1) + " - " + makeRanking()[i].getName() + "\n" +
-                                   "MMR: " +makeRanking()[i].getMmr() + "\n" +
-                                   "-----------------------");
+                for(int i = 0; i < playersRank.length; i++){
+                    System.out.println((i+1) +  " - " + playersRank[i].getName() + "\n" +
+                                                "MMR: " +playersRank[i].getMmr() + "\n" +
+                                                "-----------------------");
+                }
             }
         }
-    }
 
-    private boolean playerIdAlreadyExists(Player player){
+
+    private boolean playerIdExists(Player player){
         for(Player p : playersList){
             if(player.getId() == p.getId()){
                 return true;
@@ -53,4 +71,88 @@ public class RankedDataSystem {
         }
         return false;
     }
+    private boolean playerIdExists(int id){
+        for(Player p : playersList){
+            if(id == p.getId()){
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    public Player getPlayer(int id){
+        for (Player p : playersList){
+            if(p.getId() == id){
+                return p;
+            }
+        }
+        return null;
+    }
+
+
+
+    public boolean validRankedParameters(int whiteId, int blackId){
+        if(whiteId == blackId){
+            throw new DataException("YOU CAN'T PLAY AGAINST YOURSELF");
+        }
+        if(!playerIdExists(whiteId)){
+            throw new DataException("WHITE PLAYER ID NOT REGISTERED");
+        }
+        if(!playerIdExists(blackId)){
+            throw new DataException("BLACK PLAYER ID NOT REGISTERED");
+        }
+
+
+        return true;
+    }
+
+    public int generateMatchCode(){
+        return (this.matchHistory.size() + 1);
+    }
+
+    public Player getWinnerPlayer(TempPlayer whitePlayer, TempPlayer blackPlayer, Color winner){
+        if(whitePlayer.getColor().equals(winner)){
+            return getPlayer(whitePlayer.getId());
+        }else{
+            return getPlayer(blackPlayer.getId());
+        }
+    }
+    public Player getLoserPlayer(TempPlayer whitePlayer, TempPlayer blackPlayer, Color winner){
+        if(whitePlayer.getColor().equals(winner)){
+            return getPlayer(blackPlayer.getId());
+        }else{
+            return getPlayer(whitePlayer.getId());
+        }
+    }
+
+    public void updateMmr(Player winner, Player loser){
+        for(Player p : playersList){
+            if(p.getId() == winner.getId()){
+                p.increaseMmr();
+                break;
+            }
+        }
+        for(Player p : playersList){
+            if(p.getId() == loser.getId()){
+                p.decreaseMmr();
+            }
+        }
+
+    }
+
+    public String showPlayerScore(TempPlayer whitePlayer, TempPlayer blackPlayer){
+        return  "-----------------------" + "\n" +
+                "White Player name: " +
+                getPlayer(whitePlayer.getId()).getName() + "\n" +
+                "MMR: " + getPlayer(whitePlayer.getId()).getMmr() + "\n" +
+                "-----------------------" + "\n" +
+                "Black player name: " +
+                getPlayer(blackPlayer.getId()).getName() + "\n" +
+                "MMR: " + getPlayer(blackPlayer.getId()).getMmr() + "\n" +
+                "-----------------------";
+    }
+
+
+
 }
