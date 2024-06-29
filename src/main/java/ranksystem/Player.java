@@ -9,6 +9,8 @@ public class Player {
 
     private int matchesPlayed;
     private int victories;
+
+    private int defeats;
     private ArrayList<MatchData> matchHistory;
 
     public Player(String name, int id){
@@ -38,6 +40,10 @@ public class Player {
         return mmr;
     }
 
+    public int getDefeats(){
+        return defeats;
+    }
+
 
 
     public int getMatchesPlayed() {
@@ -65,6 +71,21 @@ public class Player {
         }else{
             this.mmr -= 20;
         }
+    }
+    public void increaseWins(){
+        victories++;
+    }
+
+    public void increaseMatchesPlayed(){
+        matchesPlayed++;
+    }
+
+    public void increaseDefeats(){
+        defeats++;
+    }
+
+    public void saveMatchData(MatchData match){
+        this.matchHistory.add(match);
     }
 
 

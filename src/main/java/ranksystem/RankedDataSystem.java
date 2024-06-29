@@ -47,7 +47,7 @@ public class RankedDataSystem {
 
     }
     public void showRanking(){
-        Player[] playersRank = makeRanking();
+        Player[] playersRank =  makeRanking();
 
         if(makeRanking() == null){
                 System.out.println();
@@ -130,15 +130,36 @@ public class RankedDataSystem {
         for(Player p : playersList){
             if(p.getId() == winner.getId()){
                 p.increaseMmr();
+                p.increaseWins();
+                p.increaseMatchesPlayed();
                 break;
             }
         }
         for(Player p : playersList){
             if(p.getId() == loser.getId()){
                 p.decreaseMmr();
+                p.increaseDefeats();
+                p.increaseMatchesPlayed();
+                break;
             }
         }
 
+    }
+
+    public void updateMatchHistory(TempPlayer whitePlayer, TempPlayer blackPlayer, MatchData match){
+        for(Player p : playersList){
+            if(p.getId() == getPlayer(whitePlayer.getId()).getId()){
+                p.saveMatchData(match);
+                break;
+
+            }
+        }
+        for(Player p : playersList){
+            if(p.getId() == getPlayer(blackPlayer.getId()).getId()){
+                p.saveMatchData(match);
+                break;
+            }
+        }
     }
 
     public String showPlayerScore(TempPlayer whitePlayer, TempPlayer blackPlayer){
@@ -153,6 +174,37 @@ public class RankedDataSystem {
                 "-----------------------";
     }
 
+    public ArrayList<MatchData> getMatchHistory() {
+        return new ArrayList<>(matchHistory);
+    }
 
+    private ArrayList<MatchData> last10Matches(){
+        ArrayList<MatchData> invertedList = new ArrayList<>(getMatchHistory().reversed());
+        ArrayList<MatchData> last10 = new ArrayList<>();
+
+        if(invertedList.isEmpty()){
+            return null;
+        }
+        int size = Math.min(invertedList.size(), 10);
+
+        for(int i = 0; i < size; i++){
+            last10.add(invertedList.get(i));
+        }
+
+        return last10;
+    }
+
+    public void showLast10Matches(){
+        if(last10Matches() == null){
+            throw new DataException("THERE ARE NO MATCHES RECORDED IN HISTORY!");
+        }
+
+        for(MatchData m : last10Matches()){
+            System.out.println(m.showResumedInfo());
+        }
+
+
+
+    }
 
 }

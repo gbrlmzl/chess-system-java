@@ -2,11 +2,9 @@ package application;
 
 
 import chess.*;
-import ranksystem.MatchData;
-import ranksystem.Player;
-import ranksystem.RankedDataSystem;
-import ranksystem.TempPlayer;
+import ranksystem.*;
 
+import javax.xml.crypto.Data;
 import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -146,6 +144,7 @@ public class Program {
                         //aplicar e printar resultados de classificação
                         //+20 de mmr no vencedor e -20 no perdedor
                         rankSystem.updateMmr(winnerPlayer, loserPlayer);
+                        rankSystem.updateMatchHistory(whitePlayer, blackPlayer, match);
 
                         //printar scores atuais
                         System.out.println("Updated ranking: ");
@@ -178,8 +177,10 @@ public class Program {
                     System.out.print("Player ID(only numbers): ");
                     int playerId = Integer.parseInt(sc.nextLine());
                     if(rankSystem.registerPlayer(new Player(playerName, playerId))){
-                        System.out.println("Player successfully registered.");
+                        System.out.println(UI.ANSI_GREEN + "Player successfully registered." + UI.ANSI_RESET);
                     }
+                    System.out.println("Press enter to return to menu");
+                    sc.nextLine();
                     break;
 
 
@@ -192,6 +193,53 @@ public class Program {
                     break;
 
                 case 5:
+                    //exibir uma lista com a data da partida, id dos jogadores - winner, codigo
+                    try{
+                        rankSystem.showLast10Matches();
+
+                        System.out.print(UI.matchDetailsMenu);
+                        int opt = Integer.parseInt(sc.nextLine());
+                        if(opt == 1){
+                            System.out.print("Match code: ");
+                            //metodo para mostrar dados detalhados de uma partida --FEITO
+                            
+
+
+
+
+
+                        } else if (opt == 2){
+                            break;
+
+                        }else{
+                            System.out.println("INVALID OPTION! \n" + "You will return to main menu." );
+                            break;
+
+                        }
+
+
+
+
+
+
+
+                    }catch(DataException e){
+                        System.out.println(e.getMessage());
+                        System.out.println("Press enter to return to menu");
+                        sc.nextLine();
+                        break;
+
+                    }catch (NumberFormatException e){
+                        System.out.println("INVALID OPTION! \n" + "You will return to main menu." );
+                        break;
+                    }
+
+
+
+
+                    //++ 1 - buscar detalhes de uma partida
+
+
 
 
 
