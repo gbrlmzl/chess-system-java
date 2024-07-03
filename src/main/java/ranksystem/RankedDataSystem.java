@@ -206,5 +206,24 @@ public class RankedDataSystem {
 
 
     }
+    public void showDetailedInfoOfAMatch(int matchCode){
+        boolean matchFound = false;
+
+        for(MatchData m : matchHistory){
+            if(matchCode == m.getMatchCode()){
+                System.out.println(m.showDetailedInfo());
+                matchFound = true;
+                break;
+
+            }
+        }
+        if(!matchFound){
+            throw new DataException("NO MATCH WITH THIS CODE WAS FOUND!");
+
+        }
+
+
+    }
+
 
 }

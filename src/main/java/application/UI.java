@@ -53,10 +53,10 @@ public class UI {
                                       "6 --> Exit" + "\n" +
                                       "=================================";
 
-    public static final String matchDetailsMenu = "----------------------------------------" + "\n" +
+    public static final String matchDetailsMenu = "========================================" + "\n" +
                                                   "1 --> View details of a match" + "\n" +
                                                   "2 --> Return to menu" + "\n" +
-                                                  "----------------------------------------";
+                                                  "========================================";
 
     public static ChessPosition readChessPosition(Scanner sc){
         try{

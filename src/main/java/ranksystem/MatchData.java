@@ -23,13 +23,14 @@ public class MatchData {
         this.totalMoves = totalMoves;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.matchDuration = Duration.between(getStartTime(), getEndTime());
 
 
     }
     private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private DateTimeFormatter hourFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
-    private Duration matchDuration = Duration.between(getStartTime(), getEndTime());
+    private Duration matchDuration;
 
     public int getMatchCode() {
         return matchCode;
@@ -97,7 +98,7 @@ public class MatchData {
 
 
     public String showResumedInfo(){
-        return  "-------------------------------------" +
+        return  "-------------------------------------\n" +
                 "Match code: " + UI.ANSI_YELLOW + getMatchCode() + UI.ANSI_RESET + "\n" +
                 "White Pieces: " + whitePlayer.getName() + "\n" +
                 "Black Pieces: " + blackPlayer.getName() + "\n" +
@@ -107,11 +108,11 @@ public class MatchData {
     }
 
     public String showDetailedInfo(){
-        return  "---------------------------------------------------------------" + "\n" +
+        return  "---------------------------------------------------------------\n" +
                 "Match: " + UI.ANSI_YELLOW + getMatchCode() + UI.ANSI_RESET + "\n" +
                 "Date: " + formatedStartDate() + "\n" +
-                "Started at " + formatedStartHour() + "| Ended at " + formatedEndHour() + "\n" +
-                "Duration: " + getDuration() +
+                "Started at " + formatedStartHour() + "   Ended at " + formatedEndHour() + "\n" +
+                "Duration: " + getDuration() + "\n" +
                 "Total moves: " + getTotalMoves() + "\n" +
                 "White Pieces: " + whitePlayer.getName() + "\n" +
                 "White Player MMR: " + whitePlayer.getMmr() + "\n" +

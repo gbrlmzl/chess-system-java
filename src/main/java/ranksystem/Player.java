@@ -17,6 +17,7 @@ public class Player {
         this.name = name;
         this.id = id;
         mmr = 100;
+        matchHistory = new ArrayList<>();
 
     }
 
