@@ -21,6 +21,17 @@ public class Player {
 
     }
 
+    public Player(String name, int id, int mmr, int matchesPlayed, int victories, int defeats){
+        this.name = name;
+        this.id = id;
+        this.mmr = mmr;
+        this.matchesPlayed = matchesPlayed;
+        this.victories = victories;
+        this.defeats = defeats;
+
+        matchHistory = new ArrayList<>();
+    }
+
     public String getName() {
         return name;
     }

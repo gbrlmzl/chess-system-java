@@ -14,6 +14,7 @@ public class MatchData {
     private int totalMoves;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private Duration matchDuration;
 
     public MatchData(int matchCode,Player blackPlayer, Player whitePlayer, Player winner, int totalMoves, LocalDateTime startTime, LocalDateTime endTime){
         this.matchCode = matchCode;
@@ -30,7 +31,7 @@ public class MatchData {
     private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private DateTimeFormatter hourFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
-    private Duration matchDuration;
+
 
     public int getMatchCode() {
         return matchCode;

@@ -3,9 +3,7 @@ package application;
 
 import chess.*;
 import ranksystem.*;
-
-import javax.xml.crypto.Data;
-import java.security.InvalidParameterException;
+import ranksystem.recordsystem.Writer;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -15,7 +13,12 @@ public class Program {
 
         boolean exit = false;
         RankedDataSystem rankSystem = new RankedDataSystem();
+        Writer dataControl = new Writer();
+
+        dataControl.initialize(rankSystem);
+
         while (!exit) {
+            dataControl.saveData(rankSystem);
             try{
                 System.out.println(UI.menu);
                 int option = Integer.parseInt(sc.nextLine());
@@ -145,14 +148,10 @@ public class Program {
                             rankSystem.updateMmr(winnerPlayer, loserPlayer);
                             rankSystem.updateMatchHistory(whitePlayer, blackPlayer, match);
 
-                            //print updated scores
+
                             System.out.println("Updated ranking: ");
                             System.out.println(rankSystem.showPlayerScore(whitePlayer, blackPlayer));
 
-                            //salvar paradas nos dados internos do programa
-
-                            //gravador***
-                            //tratar excecoes***
 
 
 
@@ -176,23 +175,24 @@ public class Program {
 
 
 
-
-
-
-
-
-
                     case 3:
-                        System.out.print("Player name: ");
-                        String playerName = sc.nextLine();
-                        System.out.print("Player ID(numbers only): ");
-                        int playerId = Integer.parseInt(sc.nextLine());
-                        if(rankSystem.registerPlayer(new Player(playerName, playerId))){
-                            System.out.println(UI.ANSI_GREEN + "Player successfully registered." + UI.ANSI_RESET);
+                        try{System.out.print("Player name: ");
+                            String playerName = sc.nextLine();
+                            System.out.print("Player ID(numbers only): ");
+                            int playerId = Integer.parseInt(sc.nextLine());
+                            if(rankSystem.registerPlayer(new Player(playerName, playerId))){
+                                System.out.println(UI.ANSI_GREEN + "Player successfully registered." + UI.ANSI_RESET);
+                            }
+                            System.out.println("Press enter to return to menu");
+                            sc.nextLine();
+                            break;
+                        }catch(DataException e){
+                            System.out.println(e.getMessage());
+                            System.out.println("Press enter to return to menu");
+                            sc.nextLine();
+                            break;
                         }
-                        System.out.println("Press enter to return to menu");
-                        sc.nextLine();
-                        break;
+
 
 
 
@@ -204,7 +204,7 @@ public class Program {
                         break;
 
                     case 5:
-                        //exibir uma lista com a data da partida, id dos jogadores - winner, codigo
+
                         try{
                             rankSystem.showLast10Matches();
 
@@ -258,7 +258,10 @@ public class Program {
 
 
                     case 6:
-                        //verificação, etc
+
+
+
+
                         exit = true;
                         break;
 

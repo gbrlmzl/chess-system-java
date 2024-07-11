@@ -178,6 +178,10 @@ public class RankedDataSystem {
         return new ArrayList<>(matchHistory);
     }
 
+    public ArrayList<Player> getPlayersList(){
+        return new ArrayList<>(playersList);
+    }
+
     private ArrayList<MatchData> last10Matches(){
         ArrayList<MatchData> invertedList = new ArrayList<>(getMatchHistory().reversed());
         ArrayList<MatchData> last10 = new ArrayList<>();
@@ -223,6 +227,19 @@ public class RankedDataSystem {
         }
 
 
+    }
+
+
+    public void reviewPlayerMatchHistory(){
+        for(Player p : playersList){
+            for(MatchData match : matchHistory){
+                if(match.getBlackPlayer().getId() == p.getId() || match.getWhitePlayer().getId() == p.getId()){
+                    if(!p.getMatchHistory().contains(match)){
+                        p.saveMatchData(match);
+                    }
+                }
+            }
+        }
     }
 
 
