@@ -6,9 +6,10 @@ import ranksystem.RankedDataSystem;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+
 
 public class Writer {
+    private File tempFolder = new File("C:\\temp");
     private File folderWritePath = new File("C:\\temp\\ChessManiaData");
 
 
@@ -17,6 +18,9 @@ public class Writer {
 
 
     private void makeDirectories(){
+        if(!tempFolder.exists()){
+            tempFolder.mkdir();
+        }
         if(!folderWritePath.exists()){
            folderWritePath.mkdir();
 
@@ -46,7 +50,7 @@ public class Writer {
 
 
         }catch(IOException e){
-            System.out.println("ERROR WRITING"); //provisório
+            System.out.println("ERROR WRITING");
         }
 
         try(BufferedWriter matchDataBw = new BufferedWriter(new FileWriter(folderWritePath.getPath() + "\\MatchHistory.csv"))){
@@ -56,7 +60,7 @@ public class Writer {
             }
 
         }catch(IOException e){
-            System.out.println("ERROR WRITING MATCHDATA"); //provisorio
+            System.out.println("ERROR WRITING MATCHDATA");
         }
 
 
@@ -83,11 +87,11 @@ public class Writer {
                     rankSystem.registerPlayer(player);
 
                     line = playerBr.readLine();
-                    //devo criar primeiro o leitor do histórico de partidas
+
                 }
 
             }catch(IOException e){
-                System.out.println("ERROR PLAYER READING"); //provisorio
+                System.out.println("ERROR PLAYER READING");
             }
 
             try(BufferedReader matchBr = new BufferedReader(new FileReader(matchFolder))){
@@ -103,8 +107,7 @@ public class Writer {
                     LocalDateTime endTime = LocalDateTime.parse(matchHistoryData[6]);
 
                     MatchData match = new MatchData(matchCode, rankSystem.getPlayer(blackPlayerId), rankSystem.getPlayer(whitePlayerId), rankSystem.getPlayer(winnerId),totalMoves, startTime, endTime);
-                    /*aqui está outro problema. provavelmente terei que ler os dados dos players primeiro, cadastra-los com um matchHistory vazio
-                    e depois ler os dados das matchDatas e verificar cada uma e adicionar ao historico dos jogadores. */
+
 
                     rankSystem.registerMatch(match);
 
@@ -117,9 +120,9 @@ public class Writer {
 
 
             }catch(IOException e){
-                System.out.println("ERROR MATCH READING"); //provisorio
+                System.out.println("ERROR MATCH READING");
             }
-            //3 etapa que consiste em adicionar as partidas  aos historicos dos respectivos players
+
 
             rankSystem.reviewPlayerMatchHistory();
 
@@ -130,7 +133,7 @@ public class Writer {
 
 
         }
-        //do contrário, não faz nada
+
     }
 
 

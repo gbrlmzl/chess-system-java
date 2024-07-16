@@ -16,6 +16,7 @@ public class Program {
         Writer dataControl = new Writer();
 
         dataControl.initialize(rankSystem);
+        UI.clearScreen();
 
         while (!exit) {
             dataControl.saveData(rankSystem);
@@ -26,6 +27,7 @@ public class Program {
                     case 1:
                         ChessMatch chessMatch = new ChessMatch();
                         List<ChessPiece> captured = new ArrayList<>();
+                        UI.clearScreen();
                         while(!chessMatch.getCheckMate()) {
                             try {
 
@@ -42,6 +44,7 @@ public class Program {
                                 ChessPosition target = UI.readChessPosition(sc);
 
                                 ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+                                UI.clearScreen();
 
                                 if(capturedPiece != null ){
                                     captured.add(capturedPiece);
@@ -60,9 +63,11 @@ public class Program {
                             } catch (ChessException e) {
                                 System.out.println(e.getMessage());
                                 sc.nextLine();
+                                UI.clearScreen();
                             } catch (InputMismatchException e) {
                                 System.out.println(e.getMessage());
                                 sc.nextLine();
+                                UI.clearScreen();
                             }
                         }
                         UI.clearScreen();
@@ -70,10 +75,12 @@ public class Program {
                         System.out.println();
                         System.out.println("Match completed, press enter to return to menu");
                         sc.nextLine();
+                        UI.clearScreen();
                         break;
 
 
                     case 2:
+                        UI.clearScreen();
 
 
                         try{
@@ -89,6 +96,7 @@ public class Program {
                             System.out.println(rankSystem.showPlayerScore(whitePlayer, blackPlayer));
                             System.out.println("Press enter to start the match");
                             sc.nextLine();
+                            UI.clearScreen();
 
 
                             chessMatch = new ChessMatch();
@@ -110,6 +118,7 @@ public class Program {
                                     ChessPosition target = UI.readChessPosition(sc);
 
                                     ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+                                    UI.clearScreen();
 
                                     if(capturedPiece != null ){
                                         captured.add(capturedPiece);
@@ -128,9 +137,11 @@ public class Program {
                                 } catch (ChessException e) {
                                     System.out.println(e.getMessage());
                                     sc.nextLine();
+                                    UI.clearScreen();
                                 } catch (InputMismatchException e) {
                                     System.out.println(e.getMessage());
                                     sc.nextLine();
+                                    UI.clearScreen();
                                 }
                             }
                             LocalDateTime endTime = LocalDateTime.now();
@@ -158,16 +169,19 @@ public class Program {
                             System.out.println();
                             System.out.println("Match completed, press enter to return to menu");
                             sc.nextLine();
+                            UI.clearScreen();
                             break;
                         }catch(DataException e) {
                             System.out.println(e.getMessage());
                             System.out.println("Press enter to return to menu");
                             sc.nextLine();
+                            UI.clearScreen();
                             break;
                         }catch(NumberFormatException e){
                             System.out.println("INVALID CHARACTER TYPE");
                             System.out.println("Press enter to return to menu");
                             sc.nextLine();
+                            UI.clearScreen();
                             break;
                         }
 
@@ -176,6 +190,7 @@ public class Program {
 
 
                     case 3:
+                        UI.clearScreen();
                         try{System.out.print("Player name: ");
                             String playerName = sc.nextLine();
                             System.out.print("Player ID(numbers only): ");
@@ -185,11 +200,13 @@ public class Program {
                             }
                             System.out.println("Press enter to return to menu");
                             sc.nextLine();
+                            UI.clearScreen();
                             break;
                         }catch(DataException e){
                             System.out.println(e.getMessage());
                             System.out.println("Press enter to return to menu");
                             sc.nextLine();
+                            UI.clearScreen();
                             break;
                         }
 
@@ -197,13 +214,17 @@ public class Program {
 
 
                     case 4:
-                        System.out.println("Ranking");
+                        UI.clearScreen();
+                        System.out.println("       Ranking");
+                        System.out.println();
                         rankSystem.showRanking();
                         System.out.println("Press enter to return to menu");
                         sc.nextLine();
+                        UI.clearScreen();
                         break;
 
                     case 5:
+                        UI.clearScreen();
 
                         try{
                             rankSystem.showLast10Matches();
@@ -213,10 +234,12 @@ public class Program {
                             if(opt == 1){
                                 System.out.print("Match code: ");
                                 int matchCode = Integer.parseInt(sc.nextLine());
+                                UI.clearScreen();
                                 rankSystem.showDetailedInfoOfAMatch(matchCode);
 
                                 System.out.println("Press enter to return to menu");
                                 sc.nextLine();
+                                UI.clearScreen();
                                 break;
 
 
@@ -240,10 +263,14 @@ public class Program {
                             System.out.println(e.getMessage());
                             System.out.println("Press enter to return to menu");
                             sc.nextLine();
+                            UI.clearScreen();
                             break;
 
                         }catch (NumberFormatException e){
-                            System.out.println("INVALID OPTION! \n" + "You will return to main menu." );
+                            System.out.println("INVALID OPTION! \n" + "Press enter to return to menu." );
+                            sc.nextLine();
+                            UI.clearScreen();
+
                             break;
                         }
 
@@ -273,7 +300,9 @@ public class Program {
                 }
 
             }catch (NumberFormatException e){
-                System.out.println("INVALID OPTION! \n" + "You will return to main menu.");
+                System.out.println("INVALID OPTION! \n" + "Press enter to return to menu.");
+                sc.nextLine();
+                UI.clearScreen();
             }
 
 

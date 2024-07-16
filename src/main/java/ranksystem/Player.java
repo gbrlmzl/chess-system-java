@@ -1,6 +1,7 @@
 package ranksystem;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Player {
     private String name;
@@ -13,7 +14,7 @@ public class Player {
     private int defeats;
     private ArrayList<MatchData> matchHistory;
 
-    public Player(String name, int id){
+    public Player(String name, int id) {
         this.name = name;
         this.id = id;
         mmr = 100;
@@ -21,7 +22,7 @@ public class Player {
 
     }
 
-    public Player(String name, int id, int mmr, int matchesPlayed, int victories, int defeats){
+    public Player(String name, int id, int mmr, int matchesPlayed, int victories, int defeats) {
         this.name = name;
         this.id = id;
         this.mmr = mmr;
@@ -52,10 +53,9 @@ public class Player {
         return mmr;
     }
 
-    public int getDefeats(){
+    public int getDefeats() {
         return defeats;
     }
-
 
 
     public int getMatchesPlayed() {
@@ -63,42 +63,41 @@ public class Player {
     }
 
 
-
     public int getVictories() {
         return victories;
     }
-
 
 
     public ArrayList<MatchData> getMatchHistory() {
         return matchHistory;
     }
 
-    public void increaseMmr(){
+    public void increaseMmr() {
         this.mmr += 20;
     }
-    public void decreaseMmr(){
-        if(this.mmr <= 20){
+
+    public void decreaseMmr() {
+        if (this.mmr <= 20) {
             this.mmr = 0;
-        }else{
+        } else {
             this.mmr -= 20;
         }
     }
-    public void increaseWins(){
+
+    public void increaseWins() {
         victories++;
     }
 
-    public void increaseMatchesPlayed(){
+    public void increaseMatchesPlayed() {
         matchesPlayed++;
     }
 
-    public void increaseDefeats(){
+    public void increaseDefeats() {
         defeats++;
     }
 
-    public void saveMatchData(MatchData match){
+    public void saveMatchData(MatchData match) {
         this.matchHistory.add(match);
     }
-
 
 }
